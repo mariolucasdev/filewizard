@@ -23,5 +23,10 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "test": "docker compose exec app ./vendor/bin/pest",
+        "phpstan": "docker compose exec app ./vendor/bin/phpstan analyse src --level=8",
+        "pint": "docker compose exec app ./vendor/bin/pint"
     }
 }
