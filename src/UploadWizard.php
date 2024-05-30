@@ -41,38 +41,26 @@ final class UploadWizard implements UploadWizardInterface
         bool $rename = true,
     ): array {
 
-        if(!self::$source) {
-            if(!file_exists($source)) {
-                throw new \Exception('Source file or directory does not exist');
-            }
-        }
-
-        if(!self::$destination) {
-            if(!file_exists($destination)) {
-                throw new \Exception('Destination directory does not exist');
-            }
-        }
+        self::validate(
+            source: $source,
+            destination: $destination
+        );
 
         $file = self::$source . $source;
-
-        $mime      = mime_content_type($file);
-        $extension = explode('/', $mime)[1];
-        $size      = filesize($file);
 
         if(!file_exists($file)) {
             throw new \Exception('File does not exist');
         }
 
+        $mime      = mime_content_type($file);
+        $extension = explode('/', $mime)[1];
+        $size      = filesize($file);
+
         if($rename) {
-            $newName = self::name(
+            $destination = self::rename(
+                destination: $destination,
                 extension: $extension
             );
-
-            if(!is_dir(self::$destination . $destination)) {
-                mkdir(self::$destination . $destination, 0755, true);
-            }
-
-            $destination = self::$destination . $destination . $newName;
         }
 
         copy($file, $destination);
@@ -109,5 +97,39 @@ final class UploadWizard implements UploadWizardInterface
         }
 
         self::$destination = $destination;
+    }
+
+    public static function validate(
+        string $source,
+        string|null $destination
+    ): void {
+        if(!self::$source) {
+            if(!file_exists($source)) {
+                throw new \Exception('Source file or directory does not exist');
+            }
+        }
+
+        if(!self::$destination) {
+            if(!file_exists($destination)) {
+                throw new \Exception('Destination directory does not exist');
+            }
+        }
+    }
+
+    public static function rename(
+        string|null $destination,
+        string $extension
+    ): string {
+        $newName = self::name(
+            extension: $extension
+        );
+
+        $destination = self::$destination . $destination;
+
+        if(!is_dir($destination)) {
+            mkdir($destination, 0755, true);
+        }
+
+        return $destination .= $newName;
     }
 }
