@@ -12,8 +12,8 @@ interface UploadWizardInterface
     ): string;
 
     public static function upload(
-        string $source,
-        string $destination,
+        string|array $source,
+        string|null $destination,
         bool $rename
     ): array;
 }

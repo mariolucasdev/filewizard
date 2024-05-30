@@ -36,10 +36,24 @@ final class UploadWizard implements UploadWizardInterface
     }
 
     public static function upload(
-        string $source,
-        string $destination = null,
+        string|array $source,
+        string|null $destination = null,
         bool $rename = true,
     ): array {
+
+        if(is_array($source)) {
+            $files = [];
+
+            foreach($source as $file) {
+                $files[] = self::upload(
+                    source: $file,
+                    destination: $destination,
+                    rename: $rename
+                );
+            }
+
+            return $files;
+        }
 
         self::validate(
             source: $source,
@@ -62,6 +76,8 @@ final class UploadWizard implements UploadWizardInterface
                 extension: $extension
             );
         }
+
+        $destination = $destination ?? self::$destination . self::name(extension: $extension);
 
         copy($file, $destination);
 

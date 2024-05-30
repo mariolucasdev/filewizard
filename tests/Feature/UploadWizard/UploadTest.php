@@ -48,3 +48,35 @@ test('should upload a file without setup source and destinations', function () {
 
     unlink($file['destination']);
 });
+
+test('should upload multiple files', function () {
+    $wizard = new UploadWizard(
+        __DIR__ . '/../../_data/',
+        __DIR__ . '/../../_data/uploads/',
+    );
+
+    $files = $wizard::upload([
+        'image.png',
+        'image.png',
+    ]);
+
+    expect($files)
+        ->toBeArray()
+        ->toHaveCount(2);
+
+    foreach ($files as $file) {
+        expect($file)
+            ->toBeArray()
+            ->toHaveKey('name')
+            ->toHaveKey('source')
+            ->toHaveKey('destination')
+            ->toHaveKey('extension')
+            ->toHaveKey('size')
+            ->toHaveKey('mime');
+
+        expect($file['destination'])
+            ->toBeFile();
+
+        unlink($file['destination']);
+    }
+});

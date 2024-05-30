@@ -15,6 +15,19 @@ if(isset($_FILES['file'])) {
     print_r($file);
     echo '</pre>';
 }
+
+if(isset($_FILES['files'])) {
+    $source      = $_FILES['files']['tmp_name'];
+    $destination = __DIR__ . '/uploads/';
+
+    $wizard = new UploadWizard(destination: $destination);
+
+    $files = $wizard::upload($source, rename: false);
+
+    echo '<pre>';
+    print_r($files);
+    echo '</pre>';
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +39,18 @@ if(isset($_FILES['file'])) {
     <title>FileWizard - Upload Example</title>
 </head>
 <body>
+
+    <h1> Single File Upload </h1>
     <form action="upload.php" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
+        <button type="submit">Upload</button>
+    </form>
+    
+    <hr>
+
+    <h1> Multiple Files Upload </h1>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="files[]" multiple>
         <button type="submit">Upload</button>
     </form>
 </body>

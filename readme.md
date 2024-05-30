@@ -10,19 +10,38 @@ composer require mariolucasdev/filewizard
 
 ### ✔️ Using
 
-#### Upload
+#### Upload Single File
 
 ```php
 use FileWizard\UploadWizard;
 
 $wizard = new UploadWizard();
-$dataFile = $wizard::upload('source/file.ext', 'dest/');
+$file = $wizard::upload('source/file.ext', 'dest/');
 
 // OR
 
 $wizard = new UploadWizard(destination: 'dest/dir/');
-$dataFile = $wizard::upload('source/file.ext');
+$file = $wizard::upload('source/file.ext');
 
-// $dataFile output
+// $file output
 // ['name', 'source', 'destination', 'extension', 'size', 'mime']
+```
+
+#### Multiple Files
+
+```php
+use FileWizard\UploadWizard;
+
+$wizard = new UploadWizard(destination: 'dest/dir/');
+
+$files = $wizard::upload([
+    'source/file1.txt',
+    'source/file2.txt',
+]);
+
+// $files output
+// [
+//     ['name', 'source', 'destination', 'extension', 'size', 'mime']
+//     ['name', 'source', 'destination', 'extension', 'size', 'mime']
+// ]
 ```
