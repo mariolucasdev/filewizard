@@ -26,11 +26,12 @@ test('should upload a file', function () {
 });
 
 test('should upload a file without setup source and destinations', function () {
-    $wizard = new UploadWizard();
+    $wizard = new UploadWizard(
+        destination: __DIR__ . '/../../_data/uploads/'
+    );
 
     $file = $wizard::upload(
-        __DIR__ . '/../../_data/image.png',
-        __DIR__ . '/../../_data/uploads/'
+        __DIR__ . '/../../_data/image.png'
     );
 
     expect($file)

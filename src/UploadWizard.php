@@ -14,7 +14,7 @@ final class UploadWizard implements UploadWizardInterface
         $source = '',
         $destination = ''
     ) {
-        self::$source = $source;
+        self::$source      = $source;
         self::$destination = $destination;
     }
 
@@ -41,13 +41,13 @@ final class UploadWizard implements UploadWizardInterface
         bool $rename = true,
     ): array {
 
-        if(! self::$source) {
+        if(!self::$source) {
             if(!file_exists($source)) {
                 throw new \Exception('Source file or directory does not exist');
             }
         }
 
-        if(! self::$destination) {
+        if(!self::$destination) {
             if(!file_exists($destination)) {
                 throw new \Exception('Destination directory does not exist');
             }
@@ -55,7 +55,7 @@ final class UploadWizard implements UploadWizardInterface
 
         $file = self::$source . $source;
 
-        if(! file_exists($file)) {
+        if(!file_exists($file)) {
             throw new \Exception('File does not exist');
         }
 
@@ -66,7 +66,7 @@ final class UploadWizard implements UploadWizardInterface
                 extension: $extension
             );
 
-            if(! is_dir(self::$destination . $destination)) {
+            if(!is_dir(self::$destination . $destination)) {
                 mkdir(self::$destination . $destination, 0755, true);
             }
 
@@ -76,12 +76,12 @@ final class UploadWizard implements UploadWizardInterface
         copy($file, $destination);
 
         return [
-            'name' => $newName,
-            'source' => $file,
+            'name'        => isset($newName) ? $newName : $file,
+            'source'      => $file,
             'destination' => $destination,
-            'extension' => $extension,
-            'size' => filesize($file),
-            'mime' => mime_content_type($file)
+            'extension'   => $extension,
+            'size'        => filesize($file),
+            'mime'        => mime_content_type($file),
         ];
     }
 
@@ -100,7 +100,7 @@ final class UploadWizard implements UploadWizardInterface
             mkdir($destination, 0755, true);
         }
 
-        if($destination && ! $create && !is_dir($destination)) {
+        if($destination && !$create && !is_dir($destination)) {
             throw new \Exception('Destination directory does not exist');
         }
 
