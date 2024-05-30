@@ -10,4 +10,10 @@ interface UploadWizardInterface
         string $separator,
         string $extension
     ): string;
+
+    public static function upload(
+        string $source,
+        string $destination,
+        bool $rename
+    ): array;
 }

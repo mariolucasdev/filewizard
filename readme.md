@@ -1,4 +1,4 @@
-# 🗃️ FileWizard
+# 📁 FileWizard
 
 Features for working with files using PHP.
 
