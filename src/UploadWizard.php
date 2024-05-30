@@ -55,11 +55,13 @@ final class UploadWizard implements UploadWizardInterface
 
         $file = self::$source . $source;
 
+        $mime      = mime_content_type($file);
+        $extension = explode('/', $mime)[1];
+        $size      = filesize($file);
+
         if(!file_exists($file)) {
             throw new \Exception('File does not exist');
         }
-
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
 
         if($rename) {
             $newName = self::name(
@@ -75,13 +77,15 @@ final class UploadWizard implements UploadWizardInterface
 
         copy($file, $destination);
 
+        $name = explode('/', $destination)[count(explode('/', $destination)) - 1];
+
         return [
-            'name'        => isset($newName) ? $newName : $file,
+            'name'        => $name,
             'source'      => $file,
             'destination' => $destination,
+            'mime'        => $mime,
             'extension'   => $extension,
-            'size'        => filesize($file),
-            'mime'        => mime_content_type($file),
+            'size'        => $size,
         ];
     }
 
