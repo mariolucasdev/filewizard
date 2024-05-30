@@ -13,7 +13,7 @@ composer require mariolucasdev/filewizard
 #### Upload
 
 ```php
-use FileWizard;
+use FileWizard\UploadWizard;
 
 $wizard = new UploadWizard();
 $dataFile = $wizard::upload('source/file.ext', 'dest/');
