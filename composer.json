@@ -1,0 +1,27 @@
+{
+    "name": "mariolucasdev/filewizard",
+    "description": "Features for working with files using PHP.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Filewizard\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mário Lucas",
+            "email": "mariolucasdev@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "pestphp/pest": "^2.34",
+        "laravel/pint": "^1.16",
+        "phpstan/phpstan": "^1.11"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
